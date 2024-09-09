@@ -14,7 +14,9 @@
 
 (struct lens (getter setter)
   #:property prop:procedure
-  (struct-field-index getter))
+  (case-lambda
+    [(s o) ((lens-getter s) o)]
+    [(s o v) ((lens-setter s) o v)]))
 
 (define lens-compose
   (case-lambda

@@ -5,7 +5,7 @@
                      racket/base
                      racket/contract/base))
 
-@title{Monocle: a small lense library}
+@title{Monocle: a small lens library}
 @author[(author+email "Bogdan Popa" "bogdan@defn.io")]
 
 @(define lens-anchor
@@ -16,11 +16,11 @@
      (begin0 ev
        (ev '(require data/monocle)))))
 
-This package provides a lense implementation with minimal dependencies
+This package provides a lens implementation with minimal dependencies
 and a focus on ergonomics. For a more full-featured implementation see
 @|lens-anchor|.
 
-By convention, lense ids are prefixed by an @tt{&} character.
+By convention, lens ids are prefixed by an @tt{&} character.
 
 @section{Reference}
 @defmodule[data/monocle]
@@ -36,7 +36,8 @@ documented below.
 
   The structure for lenses. Instances of this structure are applicable;
   applying a lens to a value is equivalent to applying its getter to
-  that value.
+  that value. Applying a lens to two values is equivalent to applying
+  its setter to the two values.
 }
 
 @defproc[(lens-set [l lens?]
@@ -48,6 +49,8 @@ documented below.
   @examples[
     #:eval ev
     (lens-set &car '(a . b) 'c)
+    (code:comment "A slightly faster version of:")
+    (&car '(a . b) 'c)
   ]
 }
 
@@ -72,7 +75,7 @@ documented below.
   @examples[
     #:eval ev
     ((lens-compose &car &cdr) '(a b c))
-    (lens-set (lens-compose &car &cdr) '(a b c) 'd)
+    ((lens-compose &car &cdr) '(a b c) 'd)
   ]
 }
 
@@ -84,7 +87,7 @@ documented below.
   @examples[
     #:eval ev
     ((lens-thread &cdr &car) '(a b c))
-    (lens-set (lens-thread &cdr &car) '(a b c) 'd)
+    ((lens-thread &cdr &car) '(a b c) 'd)
   ]
 }
 
@@ -146,6 +149,6 @@ documented below.
     (struct foo (x y) #:transparent)
     (define-struct-lenses foo)
     (&foo-x (foo 1 2))
-    (lens-set &foo-x (foo 1 2) 3)
+    (&foo-x (foo 1 2) 3)
   ]
 }

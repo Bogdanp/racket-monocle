@@ -13,7 +13,7 @@
     (check-equal? (&car '(a . b)) 'a)
     (check-equal? (&cdr '(a . b)) 'b)
     (check-equal? ((lens-compose &car &cdr) '(a . (b . c))) 'b)
-    (check-equal? (lens-set (lens-compose &car &cdr &cdr) '(a . (b . (c . d))) 'e)
+    (check-equal? ((lens-compose &car &cdr &cdr) '(a . (b . (c . d))) 'e)
                   '(a . (b . (e . d)))))
 
    (test-suite
@@ -21,11 +21,11 @@
 
     (check-equal? ((&list-ref 2) '(1 2 3 4)) 3)
     (check-equal?
-     (lens-set (lens-compose &car (&list-ref 1))
-               '((a . b)
-                 (c . d)
-                 (e . f))
-               'g)
+     ((lens-compose &car (&list-ref 1))
+      '((a . b)
+        (c . d)
+        (e . f))
+      'g)
      '((a . b)
        (g . d)
        (e . f))))
@@ -39,8 +39,7 @@
      64)
 
     (check-equal?
-     (lens-set
-      (lens-compose &car (&hash-ref 'x) &cdr)
+     ((lens-compose &car (&hash-ref 'x) &cdr)
       `(1 . ,(hasheq 'x `(1 . 2)))
       3)
      `(1 . ,(hasheq 'x `(3 . 2))))
@@ -67,11 +66,10 @@
       (check-equal? (&foo-x (foo 1 2)) 1)
       (check-equal? (&foo-y (foo 1 2)) 2)
       (check-equal?
-       (lens-set &foo-x (foo 1 2) 3)
+       (&foo-x (foo 1 2) 3)
        (foo 3 2))
       (check-equal?
-       (lens-set
-        (lens-compose &car &foo-y)
+       ((lens-compose &car &foo-y)
         (foo 1 (cons 2 3))
         4)
        (foo 1 (cons 4 3)))))))
