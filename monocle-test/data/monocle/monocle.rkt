@@ -54,7 +54,18 @@
       (&hash-ref* 'a 'b 'c)
       (hasheq 'a (hasheq 'b (hasheq 'c 42)))
       add1)
-     (hasheq 'a (hasheq 'b (hasheq 'c 43)))))
+     (hasheq 'a (hasheq 'b (hasheq 'c 43))))
+
+    (check-equal?
+     ((&opt-hash-ref* 'pagination 'cursor 'after)
+      (hasheq)
+      "3")
+     (hasheq
+      'pagination
+      (hasheq
+       'cursor
+       (hasheq
+        'after "3")))))
 
    (test-suite
     "struct"

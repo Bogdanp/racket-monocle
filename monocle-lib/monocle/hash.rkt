@@ -4,7 +4,9 @@
 
 (provide
  &hash-ref
- &hash-ref*)
+ &hash-ref*
+ &opt-hash-ref
+ &opt-hash-ref*)
 
 (define (&hash-ref k)
   (lens
@@ -20,3 +22,18 @@
      (lens-thread
       (&hash-ref k1)
       (apply &hash-ref* k2 args))]))
+
+(define (&opt-hash-ref k)
+  (lens
+   (λ (s)
+     (and s (hash-ref s k #f)))
+   (λ (s v)
+     (hash-set (or s (hasheq)) k v))))
+
+(define &opt-hash-ref*
+  (case-lambda
+    [(k) (&opt-hash-ref k)]
+    [(k1 k2 . args)
+     (lens-thread
+      (&opt-hash-ref k1)
+      (apply &opt-hash-ref* k2 args))]))

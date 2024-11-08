@@ -137,6 +137,17 @@ documented below.
   ]
 }
 
+@deftogether[(
+  @defproc[(&opt-hash-ref [k any/c]) lens?]
+  @defproc[(&opt-hash-ref* [k any/c] ...+) lens?]
+)]{
+  Like @racket[&hash-ref] and @racket[&hash-ref*], respectively, but
+  missing values are treated as @racket[#f] on get and replaced with
+  @racket[(hasheq)] on set.
+
+  @history[#:added "0.2"]
+}
+
 @subsection{Lenses for Structs}
 @defmodule[data/monocle/struct]
 
