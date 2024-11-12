@@ -137,6 +137,13 @@ documented below.
   ]
 }
 
+@defparam[current-hash-maker proc (-> hash?) #:value hasheq]{
+  Holds the procedure that @racket[&opt-hash-ref] uses to generate
+  empty hash values.
+
+  @history[#:added "0.3"]
+}
+
 @deftogether[(
   @defproc[(&opt-hash-ref [k any/c]) lens?]
   @defproc[(&opt-hash-ref* [k any/c] ...+) lens?]
@@ -144,6 +151,8 @@ documented below.
   Like @racket[&hash-ref] and @racket[&hash-ref*], respectively, but
   missing values are treated as @racket[#f] on get and replaced with
   @racket[(hasheq)] on set.
+
+  Missing hashes are created according to @racket[current-hash-maker].
 
   @history[#:added "0.2"]
 }
