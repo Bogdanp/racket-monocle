@@ -5,6 +5,7 @@
 (provide
  &hash-ref
  &hash-ref*
+ current-hash-maker
  &opt-hash-ref
  &opt-hash-ref*)
 
@@ -23,12 +24,15 @@
       (&hash-ref k1)
       (apply &hash-ref* k2 args))]))
 
+(define current-hash-maker
+  (make-parameter hasheq))
+
 (define (&opt-hash-ref k)
   (lens
    (λ (s)
      (and s (hash-ref s k #f)))
    (λ (s v)
-     (hash-set (or s (hasheq)) k v))))
+     (hash-set (or s ((current-hash-maker))) k v))))
 
 (define &opt-hash-ref*
   (case-lambda

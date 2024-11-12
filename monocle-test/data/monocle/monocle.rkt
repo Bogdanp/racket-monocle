@@ -65,7 +65,19 @@
       (hasheq
        'cursor
        (hasheq
-        'after "3")))))
+        'after "3"))))
+
+    (parameterize ([current-hash-maker hash])
+      (check-equal?
+       ((&opt-hash-ref* 'pagination 'cursor 'after)
+        (hash)
+        "3")
+       (hash
+        'pagination
+        (hash
+         'cursor
+         (hash
+          'after "3"))))))
 
    (test-suite
     "struct"
