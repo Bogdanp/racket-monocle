@@ -148,11 +148,10 @@ documented below.
   @defproc[(&opt-hash-ref [k any/c]) lens?]
   @defproc[(&opt-hash-ref* [k any/c] ...+) lens?]
 )]{
-  Like @racket[&hash-ref] and @racket[&hash-ref*], respectively, but
-  missing values are treated as @racket[#f] on get and replaced with
-  @racket[(hasheq)] on set.
-
-  Missing hashes are created according to @racket[current-hash-maker].
+  Like @racket[&hash-ref] and @racket[&hash-ref*], respectively,
+  but missing values are treated as @racket[#f] on get and
+  replaced with the result of applying the procedure contained by
+  @racket[current-hash-maker] on set.
 
   @history[#:added "0.2"]
 }
